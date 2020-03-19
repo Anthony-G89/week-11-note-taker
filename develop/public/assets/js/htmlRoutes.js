@@ -1,12 +1,12 @@
-// var express = require ("express");
+var express = require ("express");
 var path = require ("path");
 // const fs = require("fs");
 
-// var app = express();
-// var port =  process.env.PORT || 8080;
+var app = express();
+var port =  process.env.PORT || 8080;
 
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 module.exports = function(){
 
 
