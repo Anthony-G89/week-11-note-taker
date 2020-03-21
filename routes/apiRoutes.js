@@ -22,23 +22,20 @@ router.post("/notes", (req, res) => {
     })
     
 });
-
+ 
 router.delete("/notes/:id", (req, res) => {
-    
-    const id = req.params.id;
-    id.remove({id}, (err) =>{
-        if(err){
-            console.log(err);
-            
-        }else{
-            console.log("success");
-            
-        }
 
-    })
-    // const deletedItem = notes.filter()
+    const id = req.params.id;
+    const notes = Json.parse(fs.readFileSync("./db/db.json", "utf8"))
     
-    
+    const filteredNotes = notes.filter( notes => notes.id != id);
+
+    fs.writeFile('./db/db.json', JSON.stringify(filteredNotes), (error) => {
+        if (error)
+          res.json(false).status(500);
+        res.json(true);
+      });
+     
 
 });
 
