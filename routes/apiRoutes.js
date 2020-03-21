@@ -24,7 +24,20 @@ router.post("/notes", (req, res) => {
 });
 
 router.delete("/notes/:id", (req, res) => {
-    const message = req.params.id;
+    
+    const id = req.params.id;
+    id.remove({id}, (err) =>{
+        if(err){
+            console.log(err);
+            
+        }else{
+            console.log("success");
+            
+        }
+
+    })
+    // const deletedItem = notes.filter()
+    
     
 
 });
