@@ -1,43 +1,54 @@
 const router = require("express").Router();
-const fs = require ("fs");
+const fs = require("fs");
 
 router.get("/notes", (req, res) => {
-   const notes = fs.readFileSync("./db/db.json", "utf8")
-   return res.json(JSON.parse(notes))
+  const notes = fs.readFileSync("./db/db.json", "utf8")
+  return res.json(JSON.parse(notes))
 });
 
 router.post("/notes", (req, res) => {
-    const notesPost = req.body;
-    notesPost.id = Math.random()
-    console.log(notesPost);
+  const notesPost = req.body;
+  notesPost.id = Math.random()
+  console.log(notesPost);
 
-    const notes = fs.readFileSync("./db/db.json", "utf8")
-    const notesArray = JSON.parse(notes);
-    notesArray.push(notesPost);
+  const notes = fs.readFileSync("./db/db.json", "utf8")
+  const notesArray = JSON.parse(notes);
+  notesArray.push(notesPost);
 
-    fs.writeFile("./db/db.json", JSON.stringify(notesArray), (err) =>{
-        if (err) throw err;
+  fs.writeFile("./db/db.json", JSON.stringify(notesArray), (err) => {
+    if (err) throw err;
 
-        return res.json(true);
-    })
-    
+    return res.json(true);
+  })
+
 });
- 
-router.delete("/notes/:id", (req, res) => {
 
-    const id = req.params.id;
-    const notes = Json.parse(fs.readFileSync("./db/db.json", "utf8"))
-    
-    const filteredNotes = notes.filter( notes => notes.id != id);
-
-    fs.writeFile('./db/db.json', JSON.stringify(filteredNotes), (error) => {
-        if (error)
-          res.json(false).status(500);
-        res.json(true);
-      });
-     
-
+router.delete('/notes/:id', function (req, res) {
+  const id = req.params.id;
+  const notes = JSON.parse(fs.readFileSync('./db/db.json'));
+  const filteredNotes = notes.filter(note => note.id != id);
+  // Write the new array to db.json.
+  fs.writeFile('./db/db.json', JSON.stringify(filteredNotes), (error) => {
+    if (error)
+      res.json(false).status(500);
+    res.json(true);
+  });
 });
 
 module.exports = router;
 
+// router.delete("/notes/:id", (req, res) => {
+
+//   const id = req.params.id;
+//   const notes = Json.parse(fs.readFileSync("./db/db.json", "utf8"))
+
+//   const filteredNotes = notes.filter(notes => notes.id != id);
+
+//   fs.writeFile('./db/db.json', JSON.stringify(filteredNotes), (error) => {
+//     if (error)
+//       res.json(false)
+//     res.json(true);
+//   });
+
+
+// });
